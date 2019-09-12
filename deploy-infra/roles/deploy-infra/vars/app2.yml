@@ -1,0 +1,6 @@
+instance_flavor: "m2.small"
+instance_image: "rhel-guest"
+instance_security_group: "apps"
+instance_group: "apps"
+instance_stage: "QA"
+

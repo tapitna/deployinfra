@@ -1,0 +1,23 @@
+---
+- name: deploy infra
+  hosts: localhost
+  tasks:
+    - name: deploy app2 instance
+      import_role:
+        name: deploy-infra
+        vars_from: app2.yml
+      vars:
+        instance_name: app2
+    - name: deploy db instance
+      import_role:
+        name: deploy-infra
+        vars_from: db.yml
+      vars:
+        instance_name: app2
+    - name: deploy frontend instance
+      import_role:
+        name: deploy-infra
+        vars_from: frontend.yml
+      vars:
+        instance_name: frontend 
+

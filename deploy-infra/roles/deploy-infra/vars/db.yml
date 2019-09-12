@@ -1,0 +1,6 @@
+instance_flavor: "m2.small"
+instance_image: "rhel-guest"
+instance_security_group: "appdbs"
+instance_group: "db"
+instance_stage: "QA"
+

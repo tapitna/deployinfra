@@ -1,0 +1,28 @@
+---
+- name: Create instance
+  os_server:
+    cloud: ospcloud
+    name: "{{ instance_name }}"
+    flavor: "{{ instance_flavor }}"
+    key_name: ansible_ssh
+    nics:
+     - net-name: "{{ int_network }}"
+    image: "{{ instance_image }}"
+    security_groups: "{{ instance_security_group }}"
+    meta: "group={{ instance_group }}, deployment_name={{ instance_stage }}"
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+      cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+  register: instanceip
+- name: Add floating IP
+  os_floating_ip:
+     cloud: ospcloud
+     state: present
+     server: "{{ instance_name }}"
+     network: "{{ ext_network }}"
+     wait: true
+     timeout: 180
+
